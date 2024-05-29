@@ -1,0 +1,185 @@
+/* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Global Styles */
+        body, html {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            border-radius: 0 20px 20px 0;
+            padding-top: 20px;
+            overflow-y: auto;
+            z-index: 1;
+            transition: width 0.3s ease;
+        }
+
+        .sidebar.small {
+            width: 70px;
+        }
+
+        .user-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .user-icon {
+            color: #fff;
+            font-size: 40px;
+            background-color: #495057;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+        }
+
+        .username {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .sidebar-menu {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar-menu li {
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar-menu li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            display: block;
+        }
+
+        .sidebar-menu li a:hover {
+            background-color: #495057;
+        }
+
+        .separator {
+            color: #ced4da;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .logout {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: #fff;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .logout:hover {
+            color: #dee2e6;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card .icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .card .info {
+            font-weight: bold;
+            color: #495057;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #495057;
+        }
+
+        .menu-icon {
+            display: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            color: #fff;
+            font-size: 24px;
+            z-index: 2;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+            
+            .sidebar-menu li {
+                text-align: center;
+            }
+
+            .sidebar-menu li a {
+                padding: 10px 0;
+            }
+
+            .sidebar-menu li a .fa {
+                margin-right: 0;
+            }
+
+            .sidebar-menu .separator {
+                display: none;
+            }
+
+            .user-icon {
+                font-size: 30px;
+                width: 50px;
+                height: 50px;
+                line-height: 50px;
+            }
+
+            .username {
+                display: none;
+            }
+
+            .sidebar.small .username {
+                display: block;
+                text-align: center;
+            }
+
+            .content {
+                margin-left: 70px;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+        }

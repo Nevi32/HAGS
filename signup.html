@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up Page</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
     <div class="container">
@@ -44,7 +44,7 @@
                 companyInitials: document.getElementById('company-initials').value
             };
 
-            fetch('signup.php', {
+            fetch('backend/signup.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

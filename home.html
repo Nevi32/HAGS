@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="dstyles.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="user-section">
+            <div class="user-icon"><i class="fas fa-user"></i></div>
+            <div class="username">John Doe</div>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#"><i class="fas fa-home"></i><span class="menu-text">Home</span></a></li>
+            <li><a href="#"><i class="fas fa-table"></i><span class="menu-text">Tables</span></a></li>
+            <li><a href="#"><i class="fas fa-users"></i><span class="menu-text">Groups</span></a></li>
+            <li><a href="#"><i class="fas fa-users"></i><span class="menu-text">Members</span></a></li>
+        </ul>
+        <div class="logout"><i class="fas fa-sign-out-alt"></i><span class="menu-text">Logout</span></div>
+    </div>
+     <div class="menu-icon"><i class="fas fa-bars"></i></div>
+    <div class="content">
+        <h1>Welcome, Admin!</h1>
+        <div class="card registration">
+            <div class="icon"><i class="fas fa-clipboard"></i></div>
+            <div class="info">Manage Registrations</div>
+        </div>
+        <div class="card tables">
+            <div class="icon"><i class="fas fa-table"></i></div>
+            <div class="info">View Tables</div>
+        </div>
+        <div class="card analysis">
+            <div class="icon"><i class="fas fa-chart-bar"></i></div>
+            <div class="info">Data Analysis</div>
+        </div>
+    </div>
+    <script>
+     const menuIcon = document.querySelector('.menu-icon');
+        const sidebar = document.querySelector('.sidebar');
+        const content = document.querySelector('.content');
+
+        menuIcon.addEventListener('click', function() {
+            sidebar.classList.toggle('small');
+            content.classList.toggle('shifted');
+        });
+
+    </script>
+</body>
+</html>
+
