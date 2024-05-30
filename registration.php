@@ -38,7 +38,7 @@ $companyInitials = $_SESSION['companyInitials'];
             event.preventDefault();
             const form = document.getElementById('registrationForm');
             const formData = new FormData(form);
-            
+
             try {
                 const response = await fetch('backend/reg.php', {
                     method: 'POST',
@@ -172,6 +172,12 @@ $companyInitials = $_SESSION['companyInitials'];
             <div class="form-group">
                 <label for="village">Village</label>
                 <input type="text" id="village" name="village">
+            </div>
+
+            <h3>Terms and Conditions</h3>
+            <div class="form-group">
+                <input type="checkbox" id="termsAndConditions" name="termsAndConditions" required>
+                <label for="termsAndConditions">I accept that this is a representation of my signature and that of my kin.</label>
             </div>
             
             <button type="submit">Register Member</button>

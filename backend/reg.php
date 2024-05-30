@@ -34,12 +34,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $balance = $_POST['balance'];
     $dateOfPayment = $_POST['dateOfPayment'];
     $dateToCompletePayment = $_POST['dateToCompletePayment'];
-    $county = $_POST['county'];
-    $subCounty = $_POST['subCounty'];
-    $ward = $_POST['ward'];
-    $location = $_POST['location'];
-    $subLocation = $_POST['subLocation'];
-    $village = $_POST['village'];
+    $county = strtoupper($_POST['county']);
+    $subCounty = strtoupper($_POST['subCounty']);
+    $ward = strtoupper($_POST['ward']);
+    $location = strtoupper($_POST['location']);
+    $subLocation = strtoupper($_POST['subLocation']);
+    $village = strtoupper($_POST['village']);
+    $termsAccepted = isset($_POST['termsAccepted']) ? 1 : 0;
+    $nextOfKinTermsAccepted = isset($_POST['nextOfKinTermsAccepted']) ? 1 : 0;
 
     try {
         // Create a new PDO connection
@@ -76,11 +78,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $groupID = $group['GroupID'];
         }
 
+        // Generate a unique MemberID
+        $memberID = uniqid();
+
         // Insert data into the Members table
-        $sql = "INSERT INTO Members (FullName, NationalID, Contact, GroupID, MemberUniqueID, DateOfAdmission, NextOfKin, NextOfKinContact)
-                VALUES (:fullName, :nationalID, :contact, :groupID, :memberUniqueID, :dateOfAdmission, :nextOfKin, :nextOfKinContact)";
+        $sql = "INSERT INTO Members (MemberID, FullName, NationalID, Contact, GroupID, MemberUniqueID, DateOfAdmission, NextOfKin, NextOfKinContact, TermsAccepted, NextOfKinTermsAccepted)
+                VALUES (:memberID, :fullName, :nationalID, :contact, :groupID, :memberUniqueID, :dateOfAdmission, :nextOfKin, :nextOfKinContact, :termsAccepted, :nextOfKinTermsAccepted)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
+            ':memberID' => $memberID,
             ':fullName' => $fullName,
             ':nationalID' => $nationalID,
             ':contact' => $contact,
@@ -89,8 +95,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':dateOfAdmission' => $dateOfAdmission,
             ':nextOfKin' => $nextOfKin,
             ':nextOfKinContact' => $nextOfKinContact,
+            ':termsAccepted' => $termsAccepted,
+            ':nextOfKinTermsAccepted' => $nextOfKinTermsAccepted,
         ]);
-        $memberID = $pdo->lastInsertId();
 
         // Insert data into the Projects table
         $sql = "INSERT INTO Projects (MemberID, VarietyOfSeedlings, NumberOfSeedlingsOrdered, AmountToBePaid, DepositPaid, Balance, DateOfPayment, DateToCompletePayment)
