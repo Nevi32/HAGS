@@ -38,7 +38,7 @@ $companyInitials = $_SESSION['companyInitials'];
     <div class="menu-icon"><i class="fas fa-bars"></i></div>
     <div class="content">
         <h1>Welcome Admin to <?php echo htmlspecialchars($companyName); ?> (<?php echo htmlspecialchars($companyInitials); ?>) Management System!</h1>
-        <div class="card registration" onclick="window.location.href='registrations.php'">
+        <div class="card registration" onclick="window.location.href='registration.php'">
             <div class="icon"><i class="fas fa-clipboard"></i></div>
             <div class="info">Manage Registrations</div>
         </div>

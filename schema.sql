@@ -14,17 +14,16 @@ CREATE TABLE Users (
     CompanyID INT,
     FOREIGN KEY (CompanyID) REFERENCES Companies(CompanyID)
 );
--- Create the Groups table
-CREATE TABLE Groups (
-    GroupID INT AUTO_INCREMENT PRIMARY KEY,
+
+CREATE TABLE `Groups` (
+    GroupID VARCHAR(50) PRIMARY KEY, -- Assuming the generated group ID is alphanumeric and has a length of up to 50 characters
     GroupName VARCHAR(255) NOT NULL,
     CompanyID INT,
     FOREIGN KEY (CompanyID) REFERENCES Companies(CompanyID)
 );
 
--- Create the Members table
 CREATE TABLE Members (
-    MemberID INT AUTO_INCREMENT PRIMARY KEY,
+    MemberID VARCHAR(50) PRIMARY KEY,
     FullName VARCHAR(255) NOT NULL,
     NationalID VARCHAR(50) NOT NULL,
     Contact VARCHAR(50),
@@ -35,13 +34,12 @@ CREATE TABLE Members (
     NextOfKin VARCHAR(255),
     NextOfKinContact VARCHAR(50),
     NextOfKinSignature VARCHAR(255),
-    FOREIGN KEY (GroupID) REFERENCES Groups(GroupID)
+    FOREIGN KEY (GroupID) REFERENCES `Groups`(GroupID)
 );
 
--- Create the Projects table
 CREATE TABLE Projects (
     ProjectID INT AUTO_INCREMENT PRIMARY KEY,
-    MemberID INT,
+    MemberID VARCHAR(50),
     VarietyOfSeedlings VARCHAR(255),
     NumberOfSeedlingsOrdered INT,
     AmountToBePaid DECIMAL(10, 2),
@@ -52,10 +50,9 @@ CREATE TABLE Projects (
     FOREIGN KEY (MemberID) REFERENCES Members(MemberID)
 );
 
--- Create the Areas table
 CREATE TABLE Areas (
     AreaID INT AUTO_INCREMENT PRIMARY KEY,
-    MemberID INT,
+    MemberID VARCHAR(50),
     County VARCHAR(255),
     SubCounty VARCHAR(255),
     Ward VARCHAR(255),
