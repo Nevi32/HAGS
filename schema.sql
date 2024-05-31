@@ -31,11 +31,11 @@ CREATE TABLE Members (
     Contact VARCHAR(50),
     GroupID VARCHAR(50),
     MemberUniqueID VARCHAR(50) NOT NULL,
-    Signature VARCHAR(255),
+    TermsAccepted BOOLEAN NOT NULL DEFAULT FALSE,
     DateOfAdmission DATE NOT NULL,
     NextOfKin VARCHAR(255),
     NextOfKinContact VARCHAR(50),
-    NextOfKinSignature VARCHAR(255),
+    NextOfKinTermsAccepted BOOLEAN NOT NULL DEFAULT FALSE,
     FOREIGN KEY (GroupID) REFERENCES `Groups`(GroupID)
 );
 
@@ -65,3 +65,4 @@ CREATE TABLE Areas (
     Village VARCHAR(255),
     FOREIGN KEY (MemberID) REFERENCES Members(MemberID)
 );
+
