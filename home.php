@@ -42,7 +42,7 @@ $companyInitials = $_SESSION['companyInitials'];
             <div class="icon"><i class="fas fa-clipboard"></i></div>
             <div class="info">Manage Registrations</div>
         </div>
-        <div class="card tables" onclick="window.location.href='tables.php'">
+        <div class="card tables" onclick="window.location.href='fetchtables.php'">
             <div class="icon"><i class="fas fa-table"></i></div>
             <div class="info">View Tables</div>
         </div>

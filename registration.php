@@ -40,7 +40,7 @@ $companyInitials = $_SESSION['companyInitials'];
             const formData = new FormData(form);
 
             try {
-                const response = await fetch('backend/reg.php', {
+                const response = await fetch('reg.php', {
                     method: 'POST',
                     body: formData
                 });
