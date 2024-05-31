@@ -24,6 +24,43 @@ $members = $_SESSION['members'];
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="styles/dstyles.css">
     <link rel="stylesheet" href="styles/tables.css">
+    <style>
+        /* Additional styles for the popup */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            background: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 20px;
+        }
+        .popup-header {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .popup-header .close {
+            cursor: pointer;
+            font-size: 1.5em;
+        }
+        .popup-content {
+            padding: 20px;
+        }
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
 </head>
 <body>
     <div class="sidebar">
@@ -63,13 +100,23 @@ $members = $_SESSION['members'];
                     <span><?php echo htmlspecialchars($member['FullName']); ?></span>
                     <!-- Add action icons -->
                     <span class="action-icons">
-                        <i class="fas fa-trash-alt" onclick="deleteMember(<?php echo $member['MemberID']; ?>)"></i>
-                        <i class="fas fa-info-circle" onclick="showMemberInfo(<?php echo $member['MemberID']; ?>)"></i>
+                        <i class="fas fa-trash-alt" onclick="deleteMember('<?php echo $member['MemberID']; ?>')"></i>
+                        <i class="fas fa-info-circle" onclick="showMemberInfo('<?php echo $member['MemberID']; ?>')"></i>
                     </span>
                 </div>
             <?php endforeach; ?>
         </div>
     </div>
+
+    <!-- Popup overlay and container -->
+    <div class="popup-overlay" id="popupOverlay"></div>
+    <div class="popup" id="infoPopup">
+        <div class="popup-header">
+            <span class="close" onclick="closePopup()">&times;</span>
+        </div>
+        <div class="popup-content" id="popupContent"></div>
+    </div>
+
     <script>
         function applyFilter() {
             var filter = document.getElementById("filterSelect").value;
@@ -85,8 +132,8 @@ $members = $_SESSION['members'];
                             <div class="member">
                                 <span><?php echo htmlspecialchars($member['FullName']); ?></span>
                                 <span class="action-icons">
-                                    <i class="fas fa-trash-alt" onclick="deleteMember(<?php echo $member['MemberID']; ?>)"></i>
-                                    <i class="fas fa-info-circle" onclick="showMemberInfo(<?php echo $member['MemberID']; ?>)"></i>
+                                    <i class="fas fa-trash-alt" onclick="deleteMember('<?php echo $member['MemberID']; ?>')"></i>
+                                    <i class="fas fa-info-circle" onclick="showMemberInfo('<?php echo $member['MemberID']; ?>')"></i>
                                 </span>
                             </div>
                         `;
@@ -100,8 +147,8 @@ $members = $_SESSION['members'];
                             <div class="group">
                                 <span><?php echo htmlspecialchars($group['GroupName']); ?></span>
                                 <span class="action-icons">
-                                    <i class="fas fa-trash-alt" onclick="deleteGroup(<?php echo $group['GroupID']; ?>)"></i>
-                                    <i class="fas fa-info-circle" onclick="showGroupInfo(<?php echo $group['GroupID']; ?>)"></i>
+                                    <i class="fas fa-trash-alt" onclick="deleteGroup('<?php echo $group['GroupID']; ?>')"></i>
+                                    <i class="fas fa-info-circle" onclick="showGroupInfo('<?php echo $group['GroupID']; ?>')"></i>
                                 </span>
                             </div>
                         `;
@@ -119,12 +166,51 @@ $members = $_SESSION['members'];
         }
 
         function showMemberInfo(memberID) {
-            // Implement logic to show detailed information about member with given memberID
+            var members = <?php echo json_encode($members); ?>;
+            var member = members.find(m => m.MemberID == memberID);
+            var group = <?php echo json_encode($groups); ?>.find(g => g.GroupID == member.GroupID);
+            if (member && group) {
+                var content = `<h2>${member.FullName}</h2>
+                               <p><strong>Group:</strong> ${group.GroupName}</p>
+                               <p><strong>Group ID:</strong> ${member.GroupID}</p>
+                               <p><strong>National ID:</strong> ${member.NationalID}</p>
+                               <p><strong>Contact:</strong> ${member.Contact}</p>
+                               <p><strong>Member Unique ID:</strong> ${member.MemberUniqueID}</p>
+                               <p><strong>Terms Accepted:</strong> ${member.TermsAccepted}</p>
+                               <p><strong>Date Of Admission:</strong> ${member.DateOfAdmission}</p>
+                               <p><strong>Next Of Kin:</strong> ${member.NextOfKin}</p>
+                               <p><strong>Next Of Kin Contact:</strong> ${member.NextOfKinContact}</p>
+                               <p><strong>Next Of Kin Terms Accepted:</strong> ${member.NextOfKinTermsAccepted}</p>`;
+                showPopup(content);
+            }
         }
 
         function showGroupInfo(groupID) {
-            // Implement logic to show detailed information about group with given groupID
+            var groups = <?php echo json_encode($groups); ?>;
+            var group = groups.find(g => g.GroupID == groupID);
+            if (group) {
+                var membersInGroup = <?php echo json_encode($members); ?>.filter(member => member.GroupID == groupID);
+                var membersList = membersInGroup.map(member => `<li>${member.FullName}</li>`).join('');
+                var content = `<h2>${group.GroupName}</h2>
+                               <div class="group-icon"><i class="fas fa-users"></i></div>
+                               <p><strong>Group ID:</strong> ${group.GroupID}</p>
+                               <h3>Members</h3>
+                               <ul>${membersList}</ul>`;
+                showPopup(content);
+            }
         }
+
+        function showPopup(content) {
+            document.getElementById('popupContent').innerHTML = content;
+            document.getElementById('popupOverlay').style.display = 'block';
+            document.getElementById('infoPopup').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('popupOverlay').style.display = 'none';
+            document.getElementById('infoPopup').style.display = 'none';
+        }
+
         document.querySelector('.menu-icon').addEventListener('click', function() {
             document.querySelector('.sidebar').classList.toggle('small');
             document.querySelector('.content').classList.toggle('expanded');
@@ -133,3 +219,4 @@ $members = $_SESSION['members'];
 </body>
 </html>
 
+                                    
