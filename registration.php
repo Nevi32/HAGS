@@ -66,10 +66,11 @@ $companyInitials = $_SESSION['companyInitials'];
             <div class="username"><?php echo htmlspecialchars($username); ?></div>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="#"><i class="fas fa-home"></i><span class="menu-text">Home</span></a></li>
-            <li><a href="#"><i class="fas fa-table"></i><span class="menu-text">Tables</span></a></li>
-            <li><a href="#"><i class="fas fa-users"></i><span class="menu-text">Groups</span></a></li>
-            <li><a href="#"><i class="fas fa-users"></i><span class="menu-text">Members</span></a></li>
+          <li><a href="home.php"><i class="fas fa-home"></i><span class="menu-text">Home</span></a></li>
+            <li><a href="tables.php"><i class="fas fa-table"></i><span class="menu-text">Tables</span></a></li>
+            <li><a href="fetchgroups.php"><i class="fas fa-users"></i><span class="menu-text">Groups</span></a></li>
+            <li><a href="fetchmembers.php"><i class="fas fa-users"></i><span class="menu-text">Members</span></a></li>
+
         </ul>
         <div class="logout"><a href="logout.php"><i class="fas fa-sign-out-alt"></i><span class="menu-text">Logout</span></a></div>
     </div>
