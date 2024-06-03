@@ -40,8 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $location = strtoupper($_POST['location']);
     $subLocation = strtoupper($_POST['subLocation']);
     $village = strtoupper($_POST['village']);
-    $termsAccepted = isset($_POST['termsAccepted']) ? 1 : 0;
-    $nextOfKinTermsAccepted = isset($_POST['nextOfKinTermsAccepted']) ? 1 : 0;
+    $termsAccepted = isset($_POST['termsAndConditions']) ? 1 : 0;
+    // Set nextOfKinTermsAccepted to true if termsAndConditions checkbox is checked
+    $nextOfKinTermsAccepted = $termsAccepted;
 
     try {
         // Create a new PDO connection
@@ -142,3 +143,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 echo json_encode($response);
 ?>
 
+             
