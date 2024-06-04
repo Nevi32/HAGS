@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dateOfAdmission = $_POST['dateOfAdmission'];
     $nextOfKin = $_POST['nextOfKin'];
     $nextOfKinContact = '+254' . $_POST['nextOfKinContact'];
+    $status = $_POST['status']; // New status field
     $varietyOfSeedlings = $_POST['varietyOfSeedlings'];
     $numberOfSeedlingsOrdered = $_POST['numberOfSeedlingsOrdered'];
     $amountToBePaid = $_POST['amountToBePaid'];
@@ -41,7 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $subLocation = strtoupper($_POST['subLocation']);
     $village = strtoupper($_POST['village']);
     $termsAccepted = isset($_POST['termsAndConditions']) ? 1 : 0;
-    // Set nextOfKinTermsAccepted to true if termsAndConditions checkbox is checked
     $nextOfKinTermsAccepted = $termsAccepted;
 
     try {
@@ -83,8 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $memberID = uniqid();
 
         // Insert data into the Members table
-        $sql = "INSERT INTO Members (MemberID, FullName, NationalID, Contact, GroupID, MemberUniqueID, DateOfAdmission, NextOfKin, NextOfKinContact, TermsAccepted, NextOfKinTermsAccepted)
-                VALUES (:memberID, :fullName, :nationalID, :contact, :groupID, :memberUniqueID, :dateOfAdmission, :nextOfKin, :nextOfKinContact, :termsAccepted, :nextOfKinTermsAccepted)";
+        $sql = "INSERT INTO Members (MemberID, FullName, NationalID, Contact, GroupID, MemberUniqueID, DateOfAdmission, NextOfKin, NextOfKinContact, Status, TermsAccepted, NextOfKinTermsAccepted)
+                VALUES (:memberID, :fullName, :nationalID, :contact, :groupID, :memberUniqueID, :dateOfAdmission, :nextOfKin, :nextOfKinContact, :status, :termsAccepted, :nextOfKinTermsAccepted)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             ':memberID' => $memberID,
@@ -96,6 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':dateOfAdmission' => $dateOfAdmission,
             ':nextOfKin' => $nextOfKin,
             ':nextOfKinContact' => $nextOfKinContact,
+            ':status' => $status, // New status field
             ':termsAccepted' => $termsAccepted,
             ':nextOfKinTermsAccepted' => $nextOfKinTermsAccepted,
         ]);
@@ -143,4 +144,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 echo json_encode($response);
 ?>
 
-             

@@ -38,6 +38,7 @@ $companyInitials = $_SESSION['companyInitials'];
             event.preventDefault();
             const form = document.getElementById('registrationForm');
             const formData = new FormData(form);
+            formData.append('status', document.getElementById('status').value);
 
             try {
                 const response = await fetch('reg.php', {
@@ -94,6 +95,16 @@ $companyInitials = $_SESSION['companyInitials'];
                     <span class="input-group-text">+254</span>
                     <input type="text" id="contact" name="contact" pattern="[0-9]{9}" required>
                 </div>
+            </div>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status" required>
+                    <option value="chairperson">Chairperson</option>
+                    <option value="vice-chairperson">Vice-Chairperson</option>
+                    <option value="treasurer">Treasurer</option>
+                    <option value="project-manager">Project Manager</option>
+                    <option value="regular-member">Regular Member</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="groupName">Group Name</label>
