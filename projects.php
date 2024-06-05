@@ -36,6 +36,22 @@ $companyInitials = $_SESSION['companyInitials'];
         .search-container button {
             padding: 10px;
         }
+
+        .form-section {
+            margin-bottom: 20px;
+        }
+
+        .form-section h3 {
+            cursor: pointer;
+        }
+
+        .form-section-content {
+            display: none;
+        }
+
+        .form-section.active .form-section-content {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -57,52 +73,88 @@ $companyInitials = $_SESSION['companyInitials'];
         <h1>Welcome to the <?php echo htmlspecialchars($companyName); ?> (<?php echo htmlspecialchars($companyInitials); ?>) Management System!</h1>
         <h2>Please provide the project information below:</h2>
         
-        <form id="projectsForm" action="adjustprojects.php" method="post">
-            <h3>Project Information</h3>
-            <div class="form-group">
-                <label for="groupName">Group Name</label>
-                <select id="groupName" name="groupName" required>
-                    <!-- Options will be populated dynamically -->
-                </select>
+        <div class="form-section" id="newProjectsSection">
+            <h3 onclick="toggleSection('newProjectsSection')">New Projects</h3>
+            <div class="form-section-content">
+                <form id="newProjectsForm" action="adjustprojects.php" method="post">
+                    <h3>Project Information</h3>
+                    <div class="form-group">
+                        <label for="groupName">Group Name</label>
+                        <select id="groupName" name="groupName" required>
+                            <!-- Options will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="memberName">Member Name</label>
+                        <select id="memberName" name="memberName" required>
+                            <!-- Options will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="memberID">Member ID</label>
+                        <select id="memberID" name="memberID" required>
+                            <!-- Options will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="varietyOfSeedlings">Variety of Seedlings</label>
+                        <input type="text" id="varietyOfSeedlings" name="varietyOfSeedlings" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="numberOfSeedlingsOrdered">Number of Seedlings Ordered</label>
+                        <input type="number" id="numberOfSeedlingsOrdered" name="numberOfSeedlingsOrdered" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="amountToBePaid">Amount to be Paid (Ksh)</label>
+                        <input type="number" step="0.01" id="amountToBePaid" name="amountToBePaid" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="depositPaid">Deposit Paid (Ksh)</label>
+                        <input type="number" step="0.01" id="depositPaid" name="depositPaid" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="balance">Balance (Ksh)</label>
+                        <input type="number" step="0.01" id="balance" name="balance" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateOfPayment">Date of Payment</label>
+                        <input type="date" id="dateOfPayment" name="dateOfPayment" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateToCompletePayment">Date to Complete Payment</label>
+                        <input type="date" id="dateToCompletePayment" name="dateToCompletePayment" required>
+                    </div>
+                    <button type="submit">Submit New Project</button>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="memberName">Member Name</label>
-                <select id="memberName" name="memberName" required>
-                    <!-- Options will be populated dynamically -->
-                </select>
+        </div>
+
+        <div class="form-section" id="currentProjectsSection">
+            <h3 onclick="toggleSection('currentProjectsSection')">Current Projects</h3>
+            <div class="form-section-content">
+                <form id="currentProjectsForm" action="adjustprojects.php" method="post">
+                    <h3>Current Project Information</h3>
+                    <div class="form-group">
+                        <label for="currentProjectID">Project ID</label>
+                        <select id="currentProjectID" name="currentProjectID" required>
+                            <!-- Options will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="countingPayments">Counting Payments</label>
+                        <input type="number" step="0.01" id="countingPayments" name="countingPayments" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="countingPaymentDates">Counting Payment Dates</label>
+                        <input type="date" id="countingPaymentDates" name="countingPaymentDates" required>
+                    </div>
+                    <button type="submit">Submit Current Project Info</button>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="memberID">Member ID</label>
-                <select id="memberID" name="memberID" required>
-                    <!-- Options will be populated dynamically -->
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="projectName">Project Name</label>
-                <input type="text" id="projectName" name="projectName" required>
-            </div>
-            <div class="form-group">
-                <label for="projectDescription">Project Description</label>
-                <textarea id="projectDescription" name="projectDescription" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="startDate">Start Date</label>
-                <input type="date" id="startDate" name="startDate" required>
-            </div>
-            <div class="form-group">
-                <label for="endDate">End Date</label>
-                <input type="date" id="endDate" name="endDate" required>
-            </div>
-            <div class="form-group">
-                <label for="budget">Budget (Ksh)</label>
-                <input type="number" step="0.01" id="budget" name="budget" required>
-            </div>
-            <button type="submit">Submit Project</button>
-        </form>
-        
+        </div>
         <h2>View Current Projects</h2>
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search by Group Name...">
+            <input type="text" id="searchInput" placeholder="Search by Group Name or Member Name...">
             <button onclick="searchProjects()"><i class="fas fa-search"></i></button>
         </div>
         <div id="projectsInfo"></div>
@@ -125,8 +177,8 @@ $companyInitials = $_SESSION['companyInitials'];
                 const groupSelect = document.getElementById('groupName');
                 const memberSelect = document.getElementById('memberName');
                 const memberIDSelect = document.getElementById('memberID');
+                const projectIDSelect = document.getElementById('currentProjectID');
 
-                // Use a Set to keep track of unique group names
                 const groupNames = new Set();
 
                 data.groups.forEach(group => {
@@ -150,6 +202,13 @@ $companyInitials = $_SESSION['companyInitials'];
                     idOption.textContent = member.MemberID;
                     memberIDSelect.appendChild(idOption);
                 });
+
+                data.projects.forEach(project => {
+                    const projectIDOption = document.createElement('option');
+                    projectIDOption.value = project.ProjectID;
+                    projectIDOption.textContent = project.ProjectID;
+                    projectIDSelect.appendChild(projectIDOption);
+                });
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -157,57 +216,74 @@ $companyInitials = $_SESSION['companyInitials'];
 
         async function viewProjects() {
             try {
-                const response = await fetch('fetchprojectsinfo.php');
+                const response = await fetch('fetchcurrentprojects.php');
                 const result = await response.json();
-                displayProjects(result);
+                displayProjects(result.projects);
             } catch (error) {
                 console.error('Error:', error);
-                document.getElementById('projectsInfo').innerHTML = 'An error occurred while fetching project information.';
             }
         }
 
         function displayProjects(projects) {
-            const projectsInfoDiv = document.getElementById('projectsInfo');
+            const projectsInfo = document.getElementById('projectsInfo');
+            projectsInfo.innerHTML = '';
 
-            if (projects.length > 0) {
-                projectsInfoDiv.innerHTML = '';
-                projects.forEach(project => {
-                    const projectDiv = document.createElement('div');
-                    projectDiv.className = 'project';
-                    projectDiv.innerHTML = `
-                        <p><strong>Group Name:</strong> ${project.GroupName}</p>
-                        <p><strong>Member Name:</strong> ${project.MemberFullName}</p>
-                        <p><strong>Member ID:</strong> ${project.MemberID}</p>
-                        <p><strong>Project ID:</strong> ${project.ProjectID}</p>
-                        <p><strong>Variety of Seedlings:</strong> ${project.VarietyOfSeedlings}</p>
-                        <p><strong>Number of Seedlings Ordered:</strong> ${project.NumberOfSeedlingsOrdered}</p>
-                        <p><strong>Amount to be Paid:</strong> ${project.AmountToBePaid}</p>
-                        <p><strong>Deposit Paid:</strong> ${project.DepositPaid}</p>
-                        <p><strong>Balance:</strong> ${project.Balance}</p>
-                        <p><strong>Date of Payment:</strong> ${project.DateOfPayment}</p>
-                        <p><strong>Date to Complete Payment:</strong> ${project.DateToCompletePayment}</p>
-                    `;
-                    projectsInfoDiv.appendChild(projectDiv);
+            if (projects.length === 0) {
+                projectsInfo.textContent = 'No projects found.';
+                return;
+            }
+
+            const table = document.createElement('table');
+            table.border = 1;
+
+            const headerRow = document.createElement('tr');
+            ['Group Name', 'Member ID', 'Member Name', 'Project ID', 'Variety of Seedlings', 'Number of Seedlings Ordered', 'Amount to be Paid', 'Deposit Paid', 'Balance', 'Date of Payment', 'Date to Complete Payment'].forEach(header => {
+                const th = document.createElement('th');
+                th.textContent = header;
+                headerRow.appendChild(th);
+            });
+            table.appendChild(headerRow);
+
+            projects.forEach(project => {
+                const row = document.createElement('tr');
+                Object.values(project).forEach(value => {
+                    const cell = document.createElement('td');
+                    cell.textContent = value;
+                    row.appendChild(cell);
                 });
+                table.appendChild(row);
+            });
+
+            projectsInfo.appendChild(table);
+        }
+
+        function searchProjects() {
+            const searchInput = document.getElementById('searchInput').value.trim();
+            if (searchInput === '') {
+                alert('Please enter a group name or member name to search.');
+                return;
+            }
+
+            let url = 'fetchcurrentprojects.php?';
+            if (searchInput.includes(' ')) {
+                url += `memberName=${encodeURIComponent(searchInput)}`;
             } else {
-                projectsInfoDiv.innerHTML = 'No project information available.';
+                url += `groupName=${encodeURIComponent(searchInput)}`;
             }
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => displayProjects(data.projects))
+                .catch(error => console.error('Error:', error));
         }
 
-        async function searchProjects() {
-            const searchInput = document.getElementById('searchInput').value;
-            try {
-                const response = await fetch(`fetchprojectsinfo.php?groupName=${encodeURIComponent(searchInput)}`);
-                const result = await response.json();
-                displayProjects(result);
-            } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('projectsInfo').innerHTML = 'An error occurred while searching project information.';
-            }
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.classList.toggle('active');
         }
 
-        // Fetch groups and members when the page loads
-        window.onload = fetchGroupsAndMembers;
+        // Initial fetch for groups and members
+        fetchGroupsAndMembers();
     </script>
 </body>
 </html>

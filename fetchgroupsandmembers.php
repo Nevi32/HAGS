@@ -57,10 +57,31 @@ while ($row = $result->fetch_assoc()) {
 }
 
 $stmt->close();
+
+// Fetch projects for the company
+$sql = "
+SELECT p.ProjectID, p.MemberID
+FROM Projects p
+JOIN Members m ON p.MemberID = m.MemberID
+JOIN `Groups` g ON m.GroupID = g.GroupID
+WHERE g.CompanyID = ?";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $companyID);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$projects = [];
+
+while ($row = $result->fetch_assoc()) {
+    $projects[] = ["ProjectID" => $row["ProjectID"], "MemberID" => $row["MemberID"]];
+}
+
+$stmt->close();
 $conn->close();
 
 // Output the data as JSON
 header('Content-Type: application/json');
-echo json_encode(["success" => true, "groups" => $groups, "members" => $members]);
+echo json_encode(["success" => true, "groups" => $groups, "members" => $members, "projects" => $projects]);
 ?>
 

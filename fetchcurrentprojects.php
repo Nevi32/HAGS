@@ -4,7 +4,7 @@ include 'config.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
-    echo "You are not logged in.";
+    echo json_encode(["success" => false, "message" => "You are not logged in."]);
     exit();
 }
 
@@ -30,13 +30,13 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $companyID = $row['CompanyID'];
 } else {
-    echo "Company not found.";
+    echo json_encode(["success" => false, "message" => "Company not found."]);
     exit();
 }
 
 $stmt->close();
 
-// Fetch groups, members, and their projects information for the company
+// Base SQL query
 $sql = "
 SELECT 
     g.GroupName, 
@@ -59,18 +59,25 @@ JOIN
 WHERE 
     g.CompanyID = ?";
 
-// Check if a group name is provided in the request
+// Check if a group name or member name is provided in the request
+$filter = "";
+$params = [$companyID];
+$types = "i";
+
 if (isset($_GET['groupName']) && !empty($_GET['groupName'])) {
-    $groupName = $_GET['groupName'];
-    $sql .= " AND g.GroupName = ?";
+    $filter = " AND g.GroupName = ?";
+    $params[] = $_GET['groupName'];
+    $types .= "s";
+} elseif (isset($_GET['memberName']) && !empty($_GET['memberName'])) {
+    $filter = " AND m.FullName = ?";
+    $params[] = $_GET['memberName'];
+    $types .= "s";
 }
 
+$sql .= $filter;
+
 $stmt = $conn->prepare($sql);
-if (isset($groupName)) {
-    $stmt->bind_param("is", $companyID, $groupName);
-} else {
-    $stmt->bind_param("i", $companyID);
-}
+$stmt->bind_param($types, ...$params);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -85,6 +92,6 @@ $conn->close();
 
 // Output the data as JSON
 header('Content-Type: application/json');
-echo json_encode($projectsData);
+echo json_encode(["success" => true, "projects" => $projectsData]);
 ?>
 
