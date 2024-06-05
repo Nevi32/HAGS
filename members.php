@@ -75,7 +75,8 @@ $members = $_SESSION['membersinfo'];
             <li><a href="tables.php"><i class="fas fa-table"></i><span class="menu-text">Tables</span></a></li>
             <li><a href="groups.php"><i class="fas fa-users"></i><span class="menu-text">Groups</span></a></li>
             <li><a href="members.php"><i class="fas fa-users"></i><span class="menu-text">Members</span></a></li>
-        </ul>
+            <li><a href="projects.php"><i class="fas fa-projects"></i><span class="menu-text">Projects</span></a></li> 
+       </ul>
         <div class="logout"><a href="logout.php"><i class="fas fa-sign-out-alt"></i><span class="menu-text">Logout</span></a></div>
     </div>
     <div class="menu-icon"><i class="fas fa-bars"></i></div>
@@ -165,6 +166,7 @@ $members = $_SESSION['membersinfo'];
                                <p><strong>National ID:</strong> ${member.NationalID}</p>
                                <p><strong>Contact:</strong> ${member.Contact}</p>
                                <p><strong>Member Unique ID:</strong> ${member.MemberUniqueID}</p>
+                               <p><strong>Status:</strong> ${member.Status}</p>
                                <p><strong>Terms Accepted:</strong> ${member.TermsAccepted}</p>
                                <p><strong>Date Of Admission:</strong> ${member.DateOfAdmission}</p>
                                <p><strong>Next Of Kin:</strong> ${member.NextOfKin}</p>

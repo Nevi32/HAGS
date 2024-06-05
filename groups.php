@@ -74,6 +74,7 @@ $groups = $_SESSION['groupinfo'];
             <li><a href="tables.php"><i class="fas fa-table"></i><span class="menu-text">Tables</span></a></li>
             <li><a href="groups.php"><i class="fas fa-users"></i><span class="menu-text">Groups</span></a></li>
             <li><a href="members.php"><i class="fas fa-users"></i><span class="menu-text">Members</span></a></li>
+            <li><a href="projects.php"><i class="fas fa-projects"></i><span class="menu-text">Projects</span></a></li>
         </ul>
         <div class="logout"><a href="logout.php"><i class="fas fa-sign-out-alt"></i><span class="menu-text">Logout</span></a></div>
     </div>
@@ -163,6 +164,7 @@ $groups = $_SESSION['groupinfo'];
                 <p><strong>Full Name:</strong> ${member.FullName}</p>
                 <p><strong>Contact:</strong> ${member.Contact}</p>
                 <p><strong>Member ID:</strong> ${member.MemberID}</p>
+                <p><strong>Status:</strong> ${member.Status}</p>
                 <p><strong>County:</strong> ${member.Area.County}</p>
                 <p><strong>SubCounty:</strong> ${member.Area.SubCounty}</p>
                 <p><strong>Ward:</strong> ${member.Area.Ward}</p>
@@ -189,6 +191,7 @@ function showGroupInfo(groupID) {
                 <p><strong>Full Name:</strong> ${member.FullName}</p>
                 <p><strong>Contact:</strong> ${member.Contact}</p>
                 <p><strong>Member ID:</strong> ${member.MemberID}</p>
+                <p><strong>Status:</strong> ${member.Status}</p>
                 <p><strong>County:</strong> ${member.Area.County}</p>
                 <p><strong>SubCounty:</strong> ${member.Area.SubCounty}</p>
                 <p><strong>Ward:</strong> ${member.Area.Ward}</p>

@@ -37,7 +37,7 @@ if (!$companyID) {
 $sql = "
     SELECT 
         g.GroupID, g.GroupName,
-        m.MemberID, m.FullName, m.Contact, m.MemberUniqueID,
+        m.MemberID, m.FullName, m.Contact, m.MemberUniqueID, m.Status,
         p.ProjectID, p.VarietyOfSeedlings, p.NumberOfSeedlingsOrdered, p.AmountToBePaid, p.DepositPaid, p.Balance, p.DateOfPayment, p.DateToCompletePayment,
         a.AreaID, a.County, a.SubCounty, a.Ward, a.Location, a.SubLocation, a.Village
     FROM `Groups` g
@@ -67,6 +67,7 @@ while ($row = $result->fetch_assoc()) {
         'FullName' => $row['FullName'],
         'Contact' => $row['Contact'],
         'MemberUniqueID' => $row['MemberUniqueID'],
+        'Status' => $row['Status'],
         'Project' => [
             'ProjectID' => $row['ProjectID'],
             'VarietyOfSeedlings' => $row['VarietyOfSeedlings'],

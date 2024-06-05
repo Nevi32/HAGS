@@ -45,7 +45,7 @@ while ($group = $result->fetch_assoc()) {
 // Fetch all members associated with the group IDs of the company
 $members = [];
 foreach ($groups as $group) {
-    $sql = "SELECT MemberID, FullName, NationalID, Contact, GroupID, MemberUniqueID, TermsAccepted, DateOfAdmission, NextOfKin, NextOfKinContact, NextOfKinTermsAccepted FROM Members WHERE GroupID = ?";
+    $sql = "SELECT MemberID, FullName, NationalID, Contact, GroupID, MemberUniqueID, Status,  TermsAccepted, DateOfAdmission, NextOfKin, NextOfKinContact, NextOfKinTermsAccepted FROM Members WHERE GroupID = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $group['GroupID']);
     $stmt->execute();

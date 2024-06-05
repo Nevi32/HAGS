@@ -73,6 +73,7 @@ $members = $_SESSION['members'];
             <li><a href="tables.php"><i class="fas fa-table"></i><span class="menu-text">Tables</span></a></li>
             <li><a href="groups.php"><i class="fas fa-users"></i><span class="menu-text">Groups</span></a></li>
             <li><a href="members.php"><i class="fas fa-users"></i><span class="menu-text">Members</span></a></li>
+            <li><a href="projects.php"><i class="fas fa-projects"></i><span class="menu-text">Projects</span></a></li>
         </ul>
         <div class="logout"><a href="logout.php"><i class="fas fa-sign-out-alt"></i><span class="menu-text">Logout</span></a></div>
     </div>
@@ -191,8 +192,8 @@ $members = $_SESSION['members'];
             if (group) {
                 var membersInGroup = <?php echo json_encode($members); ?>.filter(member => member.GroupID == groupID);
                 var membersList = membersInGroup.map(member => `<li>${member.FullName}</li>`).join('');
-                var content = `<h2>${group.GroupName}</h2>
-                               <div class="group-icon"><i class="fas fa-users"></i></div>
+                var content = `<div class="group-icon"><i class="fas fa-users"></i></div>
+                               <h2>${group.GroupName}</h2>
                                <p><strong>Group ID:</strong> ${group.GroupID}</p>
                                <h3>Members</h3>
                                <ul>${membersList}</ul>`;

@@ -36,7 +36,7 @@ if (!$companyID) {
 // Fetch members information
 $sql = "
     SELECT 
-        m.MemberID, m.FullName, m.NationalID, m.Contact, m.MemberUniqueID, m.TermsAccepted, m.DateOfAdmission, 
+        m.MemberID, m.FullName, m.NationalID, m.Contact, m.MemberUniqueID, m.TermsAccepted, m.DateOfAdmission, m.Status, 
         m.NextOfKin, m.NextOfKinContact, m.NextOfKinTermsAccepted,
         g.GroupID, g.GroupName,
         p.ProjectID, p.VarietyOfSeedlings, p.NumberOfSeedlingsOrdered, p.AmountToBePaid, p.DepositPaid, p.Balance, p.DateOfPayment, p.DateToCompletePayment,
@@ -60,6 +60,7 @@ while ($row = $result->fetch_assoc()) {
         'FullName' => $row['FullName'],
         'NationalID' => $row['NationalID'],
         'Contact' => $row['Contact'],
+        'Status' => $row['Status'],
         'MemberUniqueID' => $row['MemberUniqueID'],
         'TermsAccepted' => $row['TermsAccepted'] ? 'Yes' : 'No',
         'DateOfAdmission' => $row['DateOfAdmission'],
