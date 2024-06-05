@@ -23,7 +23,7 @@ CREATE TABLE `Groups` (
     FOREIGN KEY (CompanyID) REFERENCES Companies(CompanyID)
 );
 
--- Create the Members table
+-- Create the Members table with the new status field
 CREATE TABLE Members (
     MemberID VARCHAR(50) PRIMARY KEY,
     FullName VARCHAR(255) NOT NULL,
@@ -31,6 +31,7 @@ CREATE TABLE Members (
     Contact VARCHAR(50),
     GroupID VARCHAR(50),
     MemberUniqueID VARCHAR(50) NOT NULL,
+    Status ENUM('chairperson', 'vice-chairperson', 'treasurer', 'project-codinator', 'regular-member') NOT NULL,
     TermsAccepted BOOLEAN NOT NULL DEFAULT FALSE,
     DateOfAdmission DATE NOT NULL,
     NextOfKin VARCHAR(255),
@@ -39,7 +40,7 @@ CREATE TABLE Members (
     FOREIGN KEY (GroupID) REFERENCES `Groups`(GroupID)
 );
 
--- Create the Projects table
+-- Create the Projects table with additional fields
 CREATE TABLE Projects (
     ProjectID INT AUTO_INCREMENT PRIMARY KEY,
     MemberID VARCHAR(50),
@@ -50,6 +51,8 @@ CREATE TABLE Projects (
     Balance DECIMAL(10, 2),
     DateOfPayment DATE,
     DateToCompletePayment DATE,
+    CountingPayments INT DEFAULT 0, -- New field: Counting payments
+    CountingPaymentDates TEXT, -- New field: Counting payment dates
     FOREIGN KEY (MemberID) REFERENCES Members(MemberID)
 );
 

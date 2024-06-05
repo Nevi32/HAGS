@@ -21,7 +21,7 @@ $companyInitials = $_SESSION['companyInitials'];
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="styles/registration.css">
     <style>
-    earch-container {
+     .search-container {
             display: flex;
             align-items: center;
             margin-bottom: 20px;
@@ -38,42 +38,19 @@ $companyInitials = $_SESSION['companyInitials'];
         }
 
         .form-section {
-            margin-bottom: 30px;
-        }
-
-        .form-section h3 {
-            margin-bottom: 15px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-
-        .form-section .select-button {
             margin-bottom: 20px;
         }
 
-        .sidebar, .content {
-            transition: all 0.3s;
+        .form-section h3 {
+            cursor: pointer;
         }
 
-        .sidebar.small {
-            width: 60px;
+        .form-section-content {
+            display: none;
         }
 
-        .content.shifted {
-            margin-left: 60px;
+        .form-section.active .form-section-content {
+            display: block;
         }
 
     </style>
