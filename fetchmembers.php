@@ -55,23 +55,40 @@ $result = $stmt->get_result();
 
 $members = [];
 while ($row = $result->fetch_assoc()) {
-    $members[] = [
-        'MemberID' => $row['MemberID'],
-        'FullName' => $row['FullName'],
-        'NationalID' => $row['NationalID'],
-        'Contact' => $row['Contact'],
-        'Status' => $row['Status'],
-        'MemberUniqueID' => $row['MemberUniqueID'],
-        'TermsAccepted' => $row['TermsAccepted'] ? 'Yes' : 'No',
-        'DateOfAdmission' => $row['DateOfAdmission'],
-        'NextOfKin' => $row['NextOfKin'],
-        'NextOfKinContact' => $row['NextOfKinContact'],
-        'NextOfKinTermsAccepted' => $row['NextOfKinTermsAccepted'] ? 'Yes' : 'No',
-        'Group' => [
-            'GroupID' => $row['GroupID'],
-            'GroupName' => $row['GroupName']
-        ],
-        'Project' => [
+    $memberID = $row['MemberID'];
+
+    if (!isset($members[$memberID])) {
+        $members[$memberID] = [
+            'MemberID' => $row['MemberID'],
+            'FullName' => $row['FullName'],
+            'NationalID' => $row['NationalID'],
+            'Contact' => $row['Contact'],
+            'Status' => $row['Status'],
+            'MemberUniqueID' => $row['MemberUniqueID'],
+            'TermsAccepted' => $row['TermsAccepted'] ? 'Yes' : 'No',
+            'DateOfAdmission' => $row['DateOfAdmission'],
+            'NextOfKin' => $row['NextOfKin'],
+            'NextOfKinContact' => $row['NextOfKinContact'],
+            'NextOfKinTermsAccepted' => $row['NextOfKinTermsAccepted'] ? 'Yes' : 'No',
+            'Group' => [
+                'GroupID' => $row['GroupID'],
+                'GroupName' => $row['GroupName']
+            ],
+            'Projects' => [],
+            'Area' => [
+                'AreaID' => $row['AreaID'],
+                'County' => $row['County'],
+                'SubCounty' => $row['SubCounty'],
+                'Ward' => $row['Ward'],
+                'Location' => $row['Location'],
+                'SubLocation' => $row['SubLocation'],
+                'Village' => $row['Village']
+            ]
+        ];
+    }
+
+    if ($row['ProjectID']) {
+        $members[$memberID]['Projects'][] = [
             'ProjectID' => $row['ProjectID'],
             'VarietyOfSeedlings' => $row['VarietyOfSeedlings'],
             'NumberOfSeedlingsOrdered' => $row['NumberOfSeedlingsOrdered'],
@@ -80,21 +97,15 @@ while ($row = $result->fetch_assoc()) {
             'Balance' => $row['Balance'],
             'DateOfPayment' => $row['DateOfPayment'],
             'DateToCompletePayment' => $row['DateToCompletePayment']
-        ],
-        'Area' => [
-            'AreaID' => $row['AreaID'],
-            'County' => $row['County'],
-            'SubCounty' => $row['SubCounty'],
-            'Ward' => $row['Ward'],
-            'Location' => $row['Location'],
-            'SubLocation' => $row['SubLocation'],
-            'Village' => $row['Village']
-        ]
-    ];
+        ];
+    }
 }
 
 $stmt->close();
 $conn->close();
+
+// Convert the associative array to an indexed array for JSON encoding
+$members = array_values($members);
 
 // Session the data
 $_SESSION['membersinfo'] = $members;

@@ -75,7 +75,7 @@ $members = $_SESSION['membersinfo'];
             <li><a href="tables.php"><i class="fas fa-table"></i><span class="menu-text">Tables</span></a></li>
             <li><a href="groups.php"><i class="fas fa-users"></i><span class="menu-text">Groups</span></a></li>
             <li><a href="members.php"><i class="fas fa-users"></i><span class="menu-text">Members</span></a></li>
-            <li><a href="projects.php"><i class="fas fa-projects"></i><span class="menu-text">Projects</span></a></li> 
+            <li><a href="projects.php"><i class="fas fa-projects"></i><span class="menu-text">Projects</span></a></li>
        </ul>
         <div class="logout"><a href="logout.php"><i class="fas fa-sign-out-alt"></i><span class="menu-text">Logout</span></a></div>
     </div>
@@ -161,6 +161,17 @@ $members = $_SESSION['membersinfo'];
             var members = <?php echo json_encode($members); ?>;
             var member = members.find(m => m.MemberID == memberID);
             if (member) {
+                var projectDetails = member.Projects.map(project => `
+                    <h4>Project ID: ${project.ProjectID}</h4>
+                    <p><strong>Variety Of Seedlings:</strong> ${project.VarietyOfSeedlings}</p>
+                    <p><strong>Number Of Seedlings Ordered:</strong> ${project.NumberOfSeedlingsOrdered}</p>
+                    <p><strong>Amount To Be Paid:</strong> ${project.AmountToBePaid}</p>
+                    <p><strong>Deposit Paid:</strong> ${project.DepositPaid}</p>
+                    <p><strong>Balance:</strong> ${project.Balance}</p>
+                    <p><strong>Date Of Payment:</strong> ${project.DateOfPayment}</p>
+                    <p><strong>Date To Complete Payment:</strong> ${project.DateToCompletePayment}</p>
+                `).join('');
+
                 var content = `<h2>${member.FullName}</h2>
                                <p><strong>Member ID:</strong> ${member.MemberID}</p>
                                <p><strong>National ID:</strong> ${member.NationalID}</p>
@@ -170,20 +181,13 @@ $members = $_SESSION['membersinfo'];
                                <p><strong>Terms Accepted:</strong> ${member.TermsAccepted}</p>
                                <p><strong>Date Of Admission:</strong> ${member.DateOfAdmission}</p>
                                <p><strong>Next Of Kin:</strong> ${member.NextOfKin}</p>
-                               <p><strong>Next Of Kin Contact:</strong> ${member.NextOfKinContact}</p>
+                               <p><strong>Next Of Kin Contact:</strong> ${member.NextOfKinContact}</                               p>
                                <p><strong>Next Of Kin Terms Accepted:</strong> ${member.NextOfKinTermsAccepted}</p>
                                <h3>Group Info</h3>
                                <p><strong>Group ID:</strong> ${member.Group.GroupID}</p>
                                <p><strong>Group Name:</strong> ${member.Group.GroupName}</p>
-                               <h3>Project Info</h3>
-                               <p><strong>Project ID:</strong> ${member.Project.ProjectID}</p>
-                               <p><strong>Variety Of Seedlings:</strong> ${member.Project.VarietyOfSeedlings}</p>
-                               <p><strong>Number Of Seedlings Ordered:</strong> ${member.Project.NumberOfSeedlingsOrdered}</p>
-                               <p><strong>Amount To Be Paid:</strong> ${member.Project.AmountToBePaid}</p>
-                               <p><strong>Deposit Paid:</strong> ${member.Project.DepositPaid}</p>
-                               <p><strong>Balance:</strong> ${member.Project.Balance}</p>
-                               <p><strong>Date Of Payment:</strong> ${member.Project.DateOfPayment}</p>
-                               <p><strong>Date To Complete Payment:</strong> ${member.Project.DateToCompletePayment}</p>
+                               <h3>Projects Info</h3>
+                               ${projectDetails}
                                <h3>Area Info</h3>
                                <p><strong>County:</strong> ${member.Area.County}</p>
                                <p><strong>SubCounty:</strong> ${member.Area.SubCounty}</p>
@@ -214,3 +218,4 @@ $members = $_SESSION['membersinfo'];
 </body>
 </html>
 
+                               
