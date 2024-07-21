@@ -33,7 +33,8 @@ $companyInitials = $_SESSION['companyInitials'];
             <li><a href="fetchgroups.php"><i class="fas fa-users"></i><span class="menu-text">Groups</span></a></li>
             <li><a href="fetchmembers.php"><i class="fas fa-users"></i><span class="menu-text">Members</span></a></li>
             <li><a href="projects.php"><i class="fas fa-projects"></i><span class="menu-text">Projects</span></a></li> 
-       </ul>
+             <li><a href="fetchinfo.php"><i class="fas fa-home"></i><span class="menu-text">Home</span></a></li>  
+     </ul>
         <div class="logout"><a href="logout.php"><i class="fas fa-sign-out-alt"></i><span class="menu-text">Logout</span></a></div>
     </div>
     <div class="menu-icon"><i class="fas fa-bars"></i></div>
