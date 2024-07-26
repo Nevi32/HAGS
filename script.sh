@@ -1,35 +1,37 @@
 #!/bin/bash
 
-# Variables
-DB_NAME="HAGS3"
-DB_USER="nevill"
+# Database credentials from config.php
+DB_HOST="localhost"
+DB_USER="nevil"
 DB_PASS="7683Nev!//"
-BACKUP_DIR="/var/www/html/HAGS/backup"
-DUMP_LOCAL_DIR="/home/n32/DUMP_local"
-DATE=$(date +%F)
-BACKUP_FILE="$BACKUP_DIR/$DB_NAME-$DATE.sql"
-LOCAL_BACKUP_FILE="$DUMP_LOCAL_DIR/$DB_NAME-$DATE.sql"
+DB_NAME="HAGSZ"
 
-# Create backup
-echo "Creating backup for database: $DB_NAME"
-mysqldump -u $DB_USER -p$DB_PASS $DB_NAME > $BACKUP_FILE
+# Directory to store the dump files
+BACKUP_DIR="/var/www/html/backup"
 
-if [ $? -eq 0 ]; then
-    echo "Backup created successfully at $BACKUP_FILE"
+# Ensure the backup directory exists
+mkdir -p $BACKUP_DIR
+
+# Find the latest dump file version
+LATEST_VERSION=$(ls $BACKUP_DIR | grep -E 'Dumpfile_v[0-9]+' | sed -E 's/Dumpfile_v([0-9]+)\.sql/\1/' | sort -n | tail -1)
+
+# Determine the new dump file version
+if [[ -z $LATEST_VERSION ]]; then
+  NEW_VERSION=1
 else
-    echo "Error creating backup"
-    exit 1
+  NEW_VERSION=$((LATEST_VERSION + 1))
 fi
 
-# Move backup to DUMP_local directory
-echo "Moving backup to $DUMP_LOCAL_DIR"
-mv  $BACKUP_FILE $LOCAL_BACKUP_FILE
+# Create the new dump file
+DUMP_FILE="$BACKUP_DIR/Dumpfile_v${NEW_VERSION}.sql"
+mysqldump -h $DB_HOST -u $DB_USER -p$DB_PASS $DB_NAME > $DUMP_FILE
 
-if [ $? -eq 0 ]; then
-    echo "Backup moved successfully to $LOCAL_BACKUP_FILE"
+# Check if the dump was successful
+if [[ $? -eq 0 ]]; then
+  echo "Database dump created successfully: $DUMP_FILE"
 else
-    echo "Error moving backup to $DUMP_LOCAL_DIR"
-    exit 1
+  echo "Error creating database dump"
+  exit 1
 fi
 
 
